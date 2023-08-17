@@ -34,7 +34,21 @@ public class GameModel {
             row = rand.nextInt(12) + 1;
         }
         col = rand.nextInt(12) + 1;
-        
+        if(hasBeenAsked[row-1][col-1]){
+            getCell();
+        }
+        hasBeenAsked[row-1][col-1] = true;
+        alertObservers(row+" x "+col);
+    }
+
+    public void checkAnswer(String data){
+        int answer = Integer.parseInt(data);
+        if(answer == row * col){
+            userAnswerBoard[row-1][col-1] = answer;
+            alertObservers("Correct");
+        }else{
+            alertObservers("Try again");
+        }
     }
 
     public void addObserver(Observer<GameModel, String> observer){
