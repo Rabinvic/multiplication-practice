@@ -29,6 +29,10 @@ public class GameModel {
         this.row = row;
     }
 
+    public gameMode getGameMode(){
+        return mode;
+    }
+
     public void getCell(){
         if(mode == gameMode.RANDOM){
             row = rand.nextInt(12) + 1;
