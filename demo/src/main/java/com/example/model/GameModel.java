@@ -2,14 +2,12 @@ package com.example.model;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 public class GameModel {
     private List<Observer<GameModel,String>> observers = new LinkedList<>();
     private int[][] userAnswerBoard = new int[12][12];
     private boolean[][] hasBeenAsked = new boolean[12][12];
     private int row, col;
-    private Random rand = new Random();
 
     public enum gameMode{
         ROW,
@@ -18,7 +16,13 @@ public class GameModel {
 
     private gameMode mode;
 
-    public GameModel(){}
+    public GameModel(){
+        for(int i = 0; i < 12; i++){
+            for(int j = 0; j < 12; j++){
+                hasBeenAsked[i][j] = false;
+            }
+        }
+    }
 
     public void gameSetup(gameMode mode){
         this.mode = mode;
@@ -33,13 +37,13 @@ public class GameModel {
         return mode;
     }
 
-    public void getCell(){
+    public void getQuestion(){
         if(mode == gameMode.RANDOM){
-            row = rand.nextInt(12) + 1;
+            row = (int) Math.ceil(Math.random() * 12);
         }
-        col = rand.nextInt(12) + 1;
+        col = (int) Math.ceil(Math.random() * 12);
         if(hasBeenAsked[row-1][col-1]){
-            getCell();
+            getQuestion();
         }
         hasBeenAsked[row-1][col-1] = true;
         alertObservers(row+" x "+col);
