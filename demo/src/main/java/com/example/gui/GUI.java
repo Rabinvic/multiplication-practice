@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -23,6 +24,7 @@ public class GUI extends Application implements Observer<GameModel, String>{
     private Scene rowSelect;
     private Scene gameScreen;
     private Label questionLabel;
+    private Label messgaeBox;
 
     private GameModel model;
 
@@ -31,11 +33,13 @@ public class GUI extends Application implements Observer<GameModel, String>{
         model = new GameModel();
         model.addObserver(this);
         questionLabel = new Label();
+        messgaeBox = new Label();
     }
     
     @Override
     public void start(Stage stage)throws Exception{
         questionLabel.setFont(Font.font(24));
+        messgaeBox.setFont(Font.font(18));
         this.stage = stage;
         stage.setResizable(false);
         makeStartMenu();
@@ -97,7 +101,13 @@ public class GUI extends Application implements Observer<GameModel, String>{
         BorderPane rightPanel = new BorderPane();
         model.getQuestion();
         rightPanel.setTop(this.questionLabel);
+        TextField inputTextField = new TextField();
+        rightPanel.setCenter(inputTextField);
+        Button submitButton = new Button("Submit");
+        submitButton.setOnAction(event -> {model.checkAnswer(inputTextField.getText());});
+        rightPanel.setBottom(submitButton);
         bp.setRight(rightPanel);
+        bp.setTop(messgaeBox);
     //     if(model.getGameMode() == gameMode.RANDOM){
 
     //     }
@@ -109,6 +119,10 @@ public class GUI extends Application implements Observer<GameModel, String>{
     public void update(GameModel model, String msg){
         if(msg.matches("(.*) x (.*)")){
             questionLabel.setText(msg);
+            return;
+        } else if(msg.startsWith("Correct")){
+            messgaeBox.setText(msg);
+            makeGameScene();
             return;
         }
     }
