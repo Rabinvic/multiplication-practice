@@ -108,6 +108,31 @@ public class GUI extends Application implements Observer<GameModel, String>{
         rightPanel.setBottom(submitButton);
         bp.setRight(rightPanel);
         bp.setTop(messgaeBox);
+
+        GridPane table = new GridPane();
+        for(int i = 0; i <= 12; i++){
+            for( int j = 0; j <= 12; j++){
+                Button b = new Button();
+                if(i==0 && j==0){
+                    continue;
+                }else if(i == 0){
+                    b.setText(Integer.toString(j));
+                    table.add(b, j, i);
+                } else if(j == 0){
+                    b.setText(Integer.toString(i));
+                    table.add(b, j, i);
+                } else {
+                    if(model.getAnswered(i, j)){
+                        b.setText(Integer.toString(i*j));
+                    } else {
+                        b.setText("   ");
+                    }
+                    table.add(b, j, i);
+                }
+            }
+        }
+
+        bp.setCenter(table);
     //     if(model.getGameMode() == gameMode.RANDOM){
 
     //     }

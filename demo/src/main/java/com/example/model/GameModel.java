@@ -20,6 +20,7 @@ public class GameModel {
         for(int i = 0; i < 12; i++){
             for(int j = 0; j < 12; j++){
                 hasBeenAsked[i][j] = false;
+                userAnswerBoard[i][j] = 0;
             }
         }
     }
@@ -37,6 +38,10 @@ public class GameModel {
         return mode;
     }
 
+    public boolean getAnswered(int row, int col){
+        return hasBeenAsked[row - 1][col - 1];
+    }
+
     public void getQuestion(){
         if(checkComplete()){
             alertObservers("Done!");
@@ -51,7 +56,6 @@ public class GameModel {
         if(hasBeenAsked[row-1][col-1]){
             getQuestion();
         }
-        hasBeenAsked[row-1][col-1] = true;
         alertObservers(row+" x "+col);
     }
 
@@ -59,6 +63,7 @@ public class GameModel {
         int answer = Integer.parseInt(data);
         if(answer == row * col){
             userAnswerBoard[row-1][col-1] = answer;
+            hasBeenAsked[row-1][col-1] = true;
             alertObservers("Correct");
         }else{
             alertObservers("Try again");
