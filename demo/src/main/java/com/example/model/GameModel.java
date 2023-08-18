@@ -38,6 +38,12 @@ public class GameModel {
     }
 
     public void getQuestion(){
+        if(checkComplete()){
+            alertObservers("Done!");
+            return;
+        }
+
+
         if(mode == gameMode.RANDOM){
             row = (int) Math.ceil(Math.random() * 12);
         }
@@ -57,6 +63,23 @@ public class GameModel {
         }else{
             alertObservers("Try again");
         }
+    }
+
+    public boolean checkComplete(){
+        boolean isDone = true;
+        if(mode == gameMode.ROW){
+            for(int j = 0; j < 12; j++){
+                if(!hasBeenAsked[row - 1][j]) isDone = false;
+            }
+        } else {
+            for(int i = 0; i < 12; i++){
+                for(int j = 0; j < 12; j++){
+                    if(!hasBeenAsked[i][j]) isDone = false;
+                }
+            }
+        }
+
+        return isDone;
     }
 
     public void addObserver(Observer<GameModel, String> observer){

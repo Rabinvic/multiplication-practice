@@ -124,6 +124,12 @@ public class GUI extends Application implements Observer<GameModel, String>{
             messgaeBox.setText(msg);
             makeGameScene();
             return;
+        } else if(msg.startsWith("Try")){
+            messgaeBox.setText(msg);
+            return;
+        } else if(msg.startsWith("Done")){
+            questionLabel.setText(msg);
+            return;
         }
     }
 
