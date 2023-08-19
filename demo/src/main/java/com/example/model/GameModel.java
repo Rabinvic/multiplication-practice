@@ -5,7 +5,6 @@ import java.util.List;
 
 public class GameModel {
     private List<Observer<GameModel,String>> observers = new LinkedList<>();
-    private int[][] userAnswerBoard = new int[12][12];
     private boolean[][] hasBeenAsked = new boolean[12][12];
     private int row, col;
 
@@ -17,12 +16,7 @@ public class GameModel {
     private gameMode mode;
 
     public GameModel(){
-        for(int i = 0; i < 12; i++){
-            for(int j = 0; j < 12; j++){
-                hasBeenAsked[i][j] = false;
-                userAnswerBoard[i][j] = 0;
-            }
-        }
+        resetBoard();
     }
 
     public void gameSetup(gameMode mode){
@@ -59,10 +53,18 @@ public class GameModel {
         alertObservers(row+" x "+col);
     }
 
+    public void resetBoard(){
+        for(int i = 0; i < 12; i++){
+            for(int j = 0; j < 12; j++){
+                hasBeenAsked[i][j] = false;
+            }
+        }
+        alertObservers("reset");
+    }
+
     public void checkAnswer(String data){
         int answer = Integer.parseInt(data);
         if(answer == row * col){
-            userAnswerBoard[row-1][col-1] = answer;
             hasBeenAsked[row-1][col-1] = true;
             alertObservers("Correct");
         }else{
