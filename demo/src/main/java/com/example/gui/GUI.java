@@ -46,6 +46,7 @@ public class GUI extends Application implements Observer<GameModel, String>{
         stage.setResizable(false);
         makeStartMenu();
         this.stage.setScene(startMenu);
+        this.stage.setTitle("Multiply");
         // this.stage.setMinHeight(600);
         // this.stage.setMinWidth(600);
         this.stage.show();
@@ -176,7 +177,11 @@ public class GUI extends Application implements Observer<GameModel, String>{
             messageBox.setText(msg);
             return;
         } else if(msg.startsWith("Done")){
-            questionLabel.setText(msg);
+            if(model.getGameMode() == gameMode.ROW){
+                questionLabel.setText("Row " + Integer.toString(model.getRow()) + " is complete");
+            } else {
+                questionLabel.setText(msg);
+            }
             messageBox.setText("");
             inputTextField.setOnAction(null);
             return;

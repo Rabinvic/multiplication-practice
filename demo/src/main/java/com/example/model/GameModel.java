@@ -36,6 +36,10 @@ public class GameModel {
         return hasBeenAsked[row - 1][col - 1];
     }
 
+    public int getRow(){
+        return this.row;
+    }
+
     public void getQuestion(){
         if(checkComplete()){
             alertObservers("Done!");

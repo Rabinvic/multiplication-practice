@@ -13,4 +13,16 @@
         <maven.compiler.target>1.17</maven.compiler.target>
     </properties>
 
+
+
+    <dependencies>
+    
+
+        <dependency>
+            <groupId>net.sf.launch4j</groupId>
+            <artifactId>launch4j</artifactId>
+            <version>3.50</version>
+        </dependency>
+
+    </dependencies>
 </project>
