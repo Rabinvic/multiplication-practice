@@ -126,6 +126,10 @@ public class GUI extends Application implements Observer<GameModel, String>{
         rowButton.setOnAction(event -> {makeRowSelect();});
         rightPanel.getChildren().add(rowButton);
 
+        Button randomButton = new Button("Random");
+        randomButton.setOnAction(event -> {model.gameSetup(gameMode.RANDOM);model.getQuestion();});
+        rightPanel.getChildren().add(randomButton);
+
         rightPanel.setAlignment(Pos.CENTER);
         bp.setRight(rightPanel);
         bp.setTop(messageBox);

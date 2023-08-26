@@ -70,6 +70,7 @@ public class GameModel {
         int answer = Integer.parseInt(data);
         if(answer == row * col){
             hasBeenAsked[row-1][col-1] = true;
+            hasBeenAsked[col-1][row-1] = true;
             alertObservers("Correct");
         }else{
             alertObservers("Try again");
