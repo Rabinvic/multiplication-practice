@@ -40,6 +40,9 @@ public class GameModel {
         return this.row;
     }
 
+    /*
+     * Get a new question to be asked to the user
+     */
     public void getQuestion(){
         if(checkComplete()){
             alertObservers("Done!");
