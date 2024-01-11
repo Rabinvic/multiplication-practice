@@ -67,7 +67,7 @@ public class GUI extends Application implements Observer<GameModel, String>{
 
 
         Button randomModeButton = new Button("Random");
-        randomModeButton.setOnAction(event -> {model.gameSetup(gameMode.RANDOM); makeGameScene();});
+        randomModeButton.setOnAction(event -> {model.gameSetupRandom(); makeGameScene();});
 
         Label instruct = new Label("Select game mode:\t");
         title.setStyle("-fx-font-size: 24px;-fx-content-display: center;");
@@ -94,7 +94,7 @@ public class GUI extends Application implements Observer<GameModel, String>{
             Button button = new Button(Integer.toString(i));
             button.setMinSize(40, 40);
             int r = i;
-            button.setOnAction(event -> {model.gameSetup(gameMode.ROW, r);makeGameScene();});
+            button.setOnAction(event -> {model.gameSetupRow(r);makeGameScene();});
             fp.getChildren().add(button);
         }
 
@@ -127,7 +127,7 @@ public class GUI extends Application implements Observer<GameModel, String>{
         rightPanel.getChildren().add(rowButton);
 
         Button randomButton = new Button("Random");
-        randomButton.setOnAction(event -> {model.gameSetup(gameMode.RANDOM);model.getQuestion();});
+        randomButton.setOnAction(event -> {model.gameSetupRandom();model.getQuestion();});
         rightPanel.getChildren().add(randomButton);
 
         rightPanel.setAlignment(Pos.CENTER);

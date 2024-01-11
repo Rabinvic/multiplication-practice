@@ -4,38 +4,71 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class GameModel {
-    private List<Observer<GameModel,String>> observers = new LinkedList<>();
-    private boolean[][] hasBeenAsked = new boolean[12][12];
-    private int row, col;
+    private List<Observer<GameModel,String>> observers = new LinkedList<>(); //List of observers
+    private boolean[][] hasBeenAsked = new boolean[12][12]; //12x12 matrix to store whether or not a question has been answered correctly by user 
+    private int row, col; //Current row and coloumn the model is using
 
+    /**
+     * Enum declaring the two different types of game mode, by row or,
+     * the whole board randomly
+     */
     public enum gameMode{
         ROW,
         RANDOM;
     }
 
-    private gameMode mode;
+    private gameMode mode; //The gaame mode being used
 
+    /**
+     * To create a game model object
+     */
     public GameModel(){
         resetBoard();
     }
 
-    public void gameSetup(gameMode mode){
-        this.mode = mode;
+    /**
+     * Method to setup a Random whole grid game
+     * 
+     * @param mode The mode being played on
+     */
+    public void gameSetupRandom(){
+        this.mode = gameMode.RANDOM;
     }
 
-    public void gameSetup(gameMode mode, int row){
-        this.mode = mode;
+    /**
+     * Method to set up the game in row mode
+     * 
+     * @param row The row the game will be played on
+     */
+    public void gameSetupRow(int row){
+        this.mode = gameMode.ROW;
         this.row = row;
     }
 
+    /**
+     * Returns the game mode being played
+     * 
+     * @return mode The current game mode
+     */
     public gameMode getGameMode(){
         return mode;
     }
 
+
+    /**
+     * Check if a question has been answered
+     * @param row The row of the cell
+     * @param col The col of the cell
+     * @return A bool of whether or not the question has been anwered correctly
+     */
     public boolean getAnswered(int row, int col){
         return hasBeenAsked[row - 1][col - 1];
     }
 
+    /**
+     * Get the row the game is currently on
+     * @return integer for the row the game is currently on
+     */
     public int getRow(){
         return this.row;
     }
@@ -44,12 +77,13 @@ public class GameModel {
      * Get a new question to be asked to the user
      */
     public void getQuestion(){
+        //Check if the board or row is completed before getting a new question
         if(checkComplete()){
             alertObservers("Done!");
             return;
         }
 
-
+        //Determines if row needs to randomized or not
         if(mode == gameMode.RANDOM){
             row = (int) Math.ceil(Math.random() * 12);
         }
@@ -60,6 +94,9 @@ public class GameModel {
         alertObservers(row+" x "+col);
     }
 
+    /**
+     * Reset the board
+     */
     public void resetBoard(){
         for(int i = 0; i < 12; i++){
             for(int j = 0; j < 12; j++){
@@ -69,6 +106,10 @@ public class GameModel {
         alertObservers("reset");
     }
 
+    /**
+     * Check if the user's answer is correct
+     * @param data String of the user's answer
+     */
     public void checkAnswer(String data){
         int answer = Integer.parseInt(data);
         if(answer == row * col){
@@ -80,6 +121,10 @@ public class GameModel {
         }
     }
 
+    /**
+     * Checks if the table is full and answered completly
+     * @return Bool of whether or not it is complete
+     */
     public boolean checkComplete(){
         boolean isDone = true;
         if(mode == gameMode.ROW){
@@ -97,10 +142,18 @@ public class GameModel {
         return isDone;
     }
 
+    /**
+     * Add observer for GUI updates
+     * @param observer The observer to be added
+     */
     public void addObserver(Observer<GameModel, String> observer){
         this.observers.add(observer);
     }
 
+    /**
+     * Alert observers for any updates
+     * @param data The data to be sent to observers
+     */
     public void alertObservers(String data){
         for(Observer<GameModel, String> observer : observers){
             observer.update(this, data);
